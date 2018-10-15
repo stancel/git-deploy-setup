@@ -1,0 +1,8 @@
+#!/bin/sh
+GIT_WORK_TREE={{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}/
+export GIT_WORK_TREE
+git checkout -f
+
+chown -R {{ git_deploy_setup_web_user }}:{{ git_deploy_setup_web_group }} {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
+chmod -R 755 {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
+

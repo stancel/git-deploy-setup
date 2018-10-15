@@ -1,0 +1,28 @@
+galaxy_info:
+  author: Brad Stancel
+  description: your description
+  company: YourOnlineDept.com
+
+  license: GPLv3
+
+  min_ansible_version: 2.4
+
+  github_branch: master
+  
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
+  - name: Debian
+    versions:
+    - wheezy
+    - jessie
+    - stretch
+
+  galaxy_tags: 
+    - git
+    - deploy
+
+
+dependencies: []
