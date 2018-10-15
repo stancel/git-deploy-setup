@@ -6,27 +6,27 @@
       path: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git" 
       state: directory 
       owner: "{{ ansible_ssh_user }}"
-    when: git_create
+    when: git_deploy_setup_git_create
 
   - name: Create git repo for new site
     shell: git init --bare chdir={{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git 
     args:
       creates: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git/config"
-    when: git_create
+    when: git_deploy_setup_git_create
 
   - name: Create git post-receive hook
     template: 
       src: templates/git-post-receive.j2 
       dest: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git/hooks/post-receive"
       mode: 0755
-    when: git_create
+    when: git_deploy_setup_git_create
 
   - debug: 
       msg: "git remote add web ssh{{':'}}//{{ ansible_user }}@{{ ansible_host }}{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git"
-    when: git_create 
+    when: git_deploy_setup_git_create 
     
   - debug: 
       msg: "git push web +master{{':'}}refs/heads/master"
-    when: git_create
+    when: git_deploy_setup_git_create
 
 

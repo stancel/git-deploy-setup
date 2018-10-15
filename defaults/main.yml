@@ -11,7 +11,7 @@ git_deploy_setup_web_folder: "/html"
 git_deploy_setup_git_home: "/var/git"
 
 # Whether or not this git deployment setup should be run
-git_deploy_setup_git_create: True
+git_deploy_setup_git_create: true
 
 # The linux username used by your webserver. The default value is "www-data" which assumes Apache is used on a Debian or Ubuntu linux
 git_deploy_setup_web_user: "www-data"
