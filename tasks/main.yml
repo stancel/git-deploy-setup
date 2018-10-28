@@ -1,32 +1,75 @@
 ---
 # tasks file for git-deploy-setup
 
-  - name: Create git repo directory
-    file: 
-      path: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git" 
-      state: directory 
-      owner: "{{ ansible_ssh_user }}"
-    when: git_deploy_setup_git_create
+- name: "Only passing an individual fqdn to remove"
+  block:
 
-  - name: Create git repo for new site
-    shell: git init --bare chdir={{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git 
-    args:
-      creates: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git/config"
-    when: git_deploy_setup_git_create
+    - name: Create git repo directory
+      file: 
+        path: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git" 
+        state: directory 
+        owner: "{{ ansible_ssh_user }}"
+      when: git_deploy_setup_git_create
 
-  - name: Create git post-receive hook
-    template: 
-      src: templates/git-post-receive.j2 
-      dest: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git/hooks/post-receive"
-      mode: 0755
-    when: git_deploy_setup_git_create
+    - name: Create git repo for new site
+      shell: git init --bare chdir={{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git 
+      args:
+        creates: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git/config"
+      when: git_deploy_setup_git_create
 
-  - debug: 
-      msg: "git remote add web ssh{{':'}}//{{ ansible_user }}@{{ ansible_host }}{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git"
-    when: git_deploy_setup_git_create 
+    - name: Create git post-receive hook
+      template: 
+        src: templates/git-post-receive.j2 
+        dest: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git/hooks/post-receive"
+        mode: 0755
+      when: git_deploy_setup_git_create
+
+    - debug: 
+        msg: "git remote add web ssh{{':'}}//{{ ansible_user }}@{{ ansible_host }}{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git"
+      when: git_deploy_setup_git_create 
     
-  - debug: 
-      msg: "git push web +master{{':'}}refs/heads/master"
-    when: git_deploy_setup_git_create
+    - debug: 
+        msg: "git push web +master{{':'}}refs/heads/master"
+      when: git_deploy_setup_git_create  
+
+  when: not git_deploy_setup_use_list_of_server_fqdn
+  
+- name: "Passing a list of fqdn's to remove"
+  block:
+  
+    - name: Create git repo directory
+      file: 
+        path: "{{ git_deploy_setup_git_home }}/{{ item.url }}.git" 
+        state: directory 
+        owner: "{{ ansible_ssh_user }}"
+      with_items: '{{ git_deploy_setup_sites_to_setup }}'
+      when: git_deploy_setup_git_create
+
+    - name: Create git repo for new site
+      shell: git init --bare chdir={{ git_deploy_setup_git_home }}/{{ item.url }}.git 
+      args:
+        creates: "{{ git_deploy_setup_git_home }}/{{ item.url }}.git/config"
+      with_items: '{{ git_deploy_setup_sites_to_setup }}'
+      when: git_deploy_setup_git_create
+
+    - name: Create git post-receive hook
+      template: 
+        src: templates/git-post-receive.j2 
+        dest: "{{ git_deploy_setup_git_home }}/{{ item.url }}.git/hooks/post-receive"
+        mode: 0755
+      with_items: '{{ git_deploy_setup_sites_to_setup }}'
+      when: git_deploy_setup_git_create
+
+    - debug: 
+        msg: "git remote add web ssh{{':'}}//{{ ansible_user }}@{{ ansible_host }}{{ git_deploy_setup_git_home }}/{{ item.url }}.git"
+      with_items: '{{ git_deploy_setup_sites_to_setup }}'
+      when: git_deploy_setup_git_create 
+    
+    - debug: 
+        msg: "git push web +master{{':'}}refs/heads/master"
+      with_items: '{{ git_deploy_setup_sites_to_setup }}'
+      when: git_deploy_setup_git_create  
+
+  when: git_deploy_setup_use_list_of_server_fqdn
 
 

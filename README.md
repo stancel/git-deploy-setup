@@ -46,6 +46,24 @@ The linux group used by your webserver. The default value is "www-data" which as
 	git_deploy_setup_web_group: "www-data"
 ```
 
+Will you be passing a list of domains to setup?
+```
+	git_deploy_setup_use_list_of_server_fqdn: false
+```
+
+List of sites to setup Git deployments for. Not needed unless the `git_deploy_setup_use_list_of_server_fqdn` variable is set to true. Default is false.
+
+```
+    git_deploy_setup_sites_to_setup:
+	  - {
+          url: 'somesite.com'
+        }
+      - {
+          url: 'mysubdomain.somesite.com'
+        } 
+```
+
+
 Dependencies
 ------------
 
