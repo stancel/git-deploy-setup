@@ -1,7 +1,7 @@
 ---
 # tasks file for git-deploy-setup
 
-- name: "Only passing an individual fqdn to remove"
+- name: "Only passing an individual fqdn to setup s Git deployment on"
   block:
 
     - name: Create git repo directory
@@ -34,7 +34,7 @@
 
   when: not git_deploy_setup_use_list_of_server_fqdn
   
-- name: "Passing a list of fqdn's to remove"
+- name: "Passing a list of fqdn's to setup Git deployments on"
   block:
   
     - name: Create git repo directory
