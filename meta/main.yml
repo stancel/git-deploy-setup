@@ -1,6 +1,6 @@
 galaxy_info:
   author: Brad Stancel
-  description: your description
+  description: Setup one or more git deployments to a webserver.
   company: YourOnlineDept.com
 
   license: GPLv3
