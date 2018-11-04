@@ -3,6 +3,16 @@ GIT_WORK_TREE={{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}/
 export GIT_WORK_TREE
 git checkout -f
 
+#chown -R {{ git_deploy_setup_web_user }}:{{ git_deploy_setup_web_group }} {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
+#chmod -R 755 {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
+
+# Ensure directories are 0755
+find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type d -exec chmod -c 0755 {} \;
+# Ensure files are 0644
+find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type f -exec chmod -c 0644 {} \;
+
+# Set user and group ownership for all existing files and directories
 chown -R {{ git_deploy_setup_web_user }}:{{ git_deploy_setup_web_group }} {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
-chmod -R 755 {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
+# Ensure newly created directories and files have a group that is the same as the webserver group
+find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type d -exec chmod g+s {} \;
 
