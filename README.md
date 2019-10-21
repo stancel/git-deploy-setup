@@ -12,10 +12,12 @@ Role Variables
 --------------
 
 The domain of the site to receive the Git post-receive hook. This is a required variable.
+
 ```
 	git_deploy_setup_domain: "somesite.com"
 ```
 The document root for the webserver. The default is set as "/var/www".
+
 ```
 	git_deploy_setup_web_home: "/var/www"
 ```
@@ -27,26 +29,31 @@ The folder inside the web_home document root that stores the files served up by 
 ```
 
 The file path on the server for setting up the git bare repo. The default is "/var/git".  
+
 ```
 	git_deploy_setup_git_home: "/var/git"
 ```
 
 Whether or not this git deployment setup should be run
+
 ```
 	git_deploy_setup_git_create: True
 ```
 
 The linux username used by your webserver. The default value is "www-data" which assumes Apache is used on a Debian or Ubuntu linux.
+
 ```
 	git_deploy_setup_web_user: "www-data"
 ```
 
 The linux group used by your webserver. The default value is "www-data" which assumes Apache is used on a Debian or Ubuntu linux.
+
 ```
 	git_deploy_setup_web_group: "www-data"
 ```
 
 Will you be passing a list of domains to setup?
+
 ```
 	git_deploy_setup_use_list_of_server_fqdn: false
 ```
@@ -63,7 +70,6 @@ List of sites to setup Git deployments for. Not needed unless the `git_deploy_se
         } 
 ```
 
-
 Dependencies
 ------------
 
@@ -74,20 +80,23 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
+```
 	- hosts: your_server
 	  vars_files:
 	    - vars/main.yml
 	  roles:
 	    - stancel.git-deploy-setup 
+```
 
 or just pass the variables in the playbook
 
+```
 	- hosts: your_server 
 	  vars:
 		git_deploy_setup_domain: "somesite.com"
 	  roles:
 	    - stancel.git-deploy-setup
-
+```
 
 License
 -------
@@ -98,5 +107,3 @@ Author Information
 ------------------
 
 [Brad Stancel](https://github.com/stancel) 
-
-

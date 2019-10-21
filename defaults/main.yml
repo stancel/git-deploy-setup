@@ -21,4 +21,3 @@ git_deploy_setup_web_group: "www-data"
 
 # Will you be passing a list of domains to setup?
 git_deploy_setup_use_list_of_server_fqdn: false
-

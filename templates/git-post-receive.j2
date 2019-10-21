@@ -15,4 +15,3 @@ find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type f -e
 chown -R {{ git_deploy_setup_web_user }}:{{ git_deploy_setup_web_group }} {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
 # Ensure newly created directories and files have a group that is the same as the webserver group
 find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type d -exec chmod g+s {} \;
-

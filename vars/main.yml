@@ -36,4 +36,3 @@ git_deploy_setup_sites_to_setup:
 
 # Will you be passing a list of domains to setup?
 #git_deploy_setup_use_list_of_server_fqdn: false
-

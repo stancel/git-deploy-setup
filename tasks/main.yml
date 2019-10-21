@@ -71,5 +71,3 @@
       when: git_deploy_setup_git_create  
 
   when: git_deploy_setup_use_list_of_server_fqdn
-
-
