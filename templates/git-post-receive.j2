@@ -8,7 +8,7 @@ git checkout -f
 
 # Ensure directories are 0755
 find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type d -exec chmod -c 0755 {} \;
-# Ensure files are 0644
+# Ensure files are 0644 - Making them 664 since the shared webserver runs under the group
 find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type f -exec chmod -c 0664 {} \;
 
 # Set user and group ownership for all existing files and directories
