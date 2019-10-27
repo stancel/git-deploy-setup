@@ -3,15 +3,14 @@ GIT_WORK_TREE={{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}/
 export GIT_WORK_TREE
 git checkout -f
 
-#chown -R {{ git_deploy_setup_web_user }}:{{ git_deploy_setup_web_group }} {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
-#chmod -R 755 {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
+# Set user and group ownership for all existing files and directories
+chown -R {{ git_deploy_setup_web_user }}:{{ git_deploy_setup_web_group }} {{ git_deploy_setup_web_home }}
 
-# Ensure directories are 0755
-find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type d -exec chmod -c 0755 {} \;
+# Ensure directories are 2755 
+# The 2 at the beginning makes the directory SGID (Set Group ID). 
+# That means any files in the directory automatically will inherit the group of the folder, as opposed to the group of the user putting the file there.
+# The group of this folder should already be set to the webserver's group - www-data
+find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type d -exec chmod -c 2755 {} \;
 # Ensure files are 0644 - Making them 664 since the shared webserver runs under the group
 find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type f -exec chmod -c 0664 {} \;
 
-# Set user and group ownership for all existing files and directories
-chown -R {{ git_deploy_setup_web_user }}:{{ git_deploy_setup_web_group }} {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }}
-# Ensure newly created directories and files have a group that is the same as the webserver group
-find {{ git_deploy_setup_web_home }}{{ git_deploy_setup_web_folder }} -type d -exec chmod g+s {} \;
