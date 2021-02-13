@@ -9,6 +9,8 @@
         path: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git" 
         state: directory 
         owner: "{{ ansible_ssh_user }}"
+        group: "{{ ansible_ssh_user }}"
+        recurse: yes
       when: git_deploy_setup_git_create
 
     - name: Create git repo for new site
@@ -22,6 +24,15 @@
         src: templates/git-post-receive.j2 
         dest: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git/hooks/post-receive"
         mode: 0755
+      when: git_deploy_setup_git_create
+
+    - name: Recursively Update Ownership of Git Repo and Hooks
+      file: 
+        path: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git" 
+        state: directory 
+        owner: "{{ ansible_ssh_user }}"
+        group: "{{ ansible_ssh_user }}"
+        recurse: yes
       when: git_deploy_setup_git_create
 
     - debug: 
@@ -42,6 +53,8 @@
         path: "{{ git_deploy_setup_git_home }}/{{ item.url }}.git" 
         state: directory 
         owner: "{{ ansible_ssh_user }}"
+        group: "{{ ansible_ssh_user }}"
+        recurse: yes
       with_items: '{{ git_deploy_setup_sites_to_setup }}'
       when: git_deploy_setup_git_create
 
@@ -58,6 +71,15 @@
         dest: "{{ git_deploy_setup_git_home }}/{{ item.url }}.git/hooks/post-receive"
         mode: 0755
       with_items: '{{ git_deploy_setup_sites_to_setup }}'
+      when: git_deploy_setup_git_create
+
+    - name: Recursively Update Ownership of Git Repo and Hooks
+      file: 
+        path: "{{ git_deploy_setup_git_home }}/{{ git_deploy_setup_domain }}.git" 
+        state: directory 
+        owner: "{{ ansible_ssh_user }}"
+        group: "{{ ansible_ssh_user }}"
+        recurse: yes
       when: git_deploy_setup_git_create
 
     - debug: 
